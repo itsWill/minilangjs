@@ -144,4 +144,10 @@ describe("Type Checker", function(){
     symtab.build(ast.nodes);
     expect(function(){typeChecker.check(ast.nodes);}).toThrow(new Error("can't use undeclared identifier j"));
   });
+
+  it("doesn't allow an undeclared identifier in a print statement", function(){
+    var ast = parser.parse("print i + 1;");
+    symtab.build(ast.nodes);
+    expect(function(){typeChecker.check(ast.nodes);}).toThrow(new Error("can't use undeclared identifier i"));
+  });
 });

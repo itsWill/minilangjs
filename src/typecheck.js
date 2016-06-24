@@ -50,6 +50,9 @@ TypeChecker.prototype.checkNode = function(node){
         this.checkNode(node.exp);
       this.check(node.stmts);
       break;
+    case Parser.AST_PRINT:
+      this.checkNode(node.exp);
+      break;
     case Parser.AST_FLOAT:
       node.type = "float";
       break;

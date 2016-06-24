@@ -35,6 +35,9 @@ SymbolTable.prototype.analyzeNode = function(node){
       this.build(node.stmts);
       this.pop();
       break;
+    case Parser.AST_PRINT:
+      this.analyzeNode(node.exp);
+      break;
     case Parser.AST_BINOP:
       this.analyzeNode(node.left);
       this.analyzeNode(node.right);
