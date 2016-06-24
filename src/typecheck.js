@@ -36,13 +36,18 @@ TypeChecker.prototype.checkNode = function(node){
       this.checkNode(node.right);
       lType = node.left.type;
       rType = node.right.type;
-      if(lType === "bool" || rType === "bool"){
+      if(lType === "string" || rType === "string")
+        node.type = this.checkStringRules(lType, rType, node.operator);
+      else if(lType === "bool" || rType === "bool"){
         node.type = this.checkBoolRules(rType, lType, node.operator);
-      }else if(lType === "int" || rType === "int")
-        node.type = this.checkIntRules(rType, lType, node.operator);
+      }else if(lType === "int" || rType === "int" || lType === 'float' || rType === 'float')
+        node.type = this.checkNumRules(rType, lType, node.operator);
       break;
     case Parser.AST_WHILE:
     case Parser.AST_IF:
+    case Parser.AST_ELSE:
+      if(node.exp !== undefined)
+        this.checkNode(node.exp);
       this.check(node.stmts);
       break;
     case Parser.AST_FLOAT:
@@ -75,7 +80,7 @@ TypeChecker.prototype.checkBoolRules = function(rType, lType, operator){
   return 'bool';
 };
 
-TypeChecker.prototype.checkIntRules = function(rType, lType, operator){
+TypeChecker.prototype.checkNumRules = function(rType, lType, operator){
   var intOps = ["*", "/", "+", "%", "<", "-"];
   if(intOps.indexOf(operator) < 0)
     throw new Error("undefined operator " + operator + " for int");
@@ -87,6 +92,14 @@ TypeChecker.prototype.checkIntRules = function(rType, lType, operator){
     return 'bool';
   else if(lType === "int" && rType === "int")
     return 'int';
+  else if(lType === "float" && rType === "float")
+    return 'float';
+};
+
+TypeChecker.prototype.checkStringRules = function(rType, lType, operator){
+  if(operator != "+")
+    throw new Error("undefined operator " + operator + " for string");
+  return 'string';
 };
 
 module.exports = TypeChecker;

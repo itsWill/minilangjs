@@ -115,4 +115,33 @@ describe("Type Checker", function(){
     typeChecker.check(ast.nodes);
     expect(ast.nodes[0].right.type).toEqual('int');
   });
+
+  it("checks that a float operation is a float", function(){
+    var ast = parser.parse("var i:float = ((3.0 + 5.0) - 33)/7;");
+    typeChecker.check(ast.nodes);
+    expect(ast.nodes[0].right.type).toEqual("float");
+  });
+
+  it("checkst that string concatenation resolves to a string", function(){
+    var ast = parser.parse("var s:string = 'hello' + ' world';");
+    typeChecker.check(ast.nodes);
+    expect(ast.nodes[0].right.type).toEqual("string");
+  });
+
+  it("throws an error for an unsopported operation on strings", function(){
+    var ast = parser.parse("var s:string= 'hello' * 3.0;");
+    expect(function(){typeChecker.check(ast.nodes);}).toThrow(new Error("undefined operator * for string"));
+  });
+
+  it("doesn't allow the use of an undeclared identier in a while expression", function(){
+    var ast = parser.parse("while i < 10 do var j:int = 5; end");
+    symtab.build(ast.nodes);
+    expect(function(){typeChecker.check(ast.nodes);}).toThrow(new Error("can't use undeclared identifier i"));
+  });
+
+  it("doesn't allow an undeclared identier in an else statement", function(){
+    var ast = parser.parse("var i:int = 0; if i < 0 do else i = j + 1; end");
+    symtab.build(ast.nodes);
+    expect(function(){typeChecker.check(ast.nodes);}).toThrow(new Error("can't use undeclared identifier j"));
+  });
 });
