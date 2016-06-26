@@ -36,22 +36,4 @@ describe("Code Generator", function(){
     var ast = parser.parse("if i < 10 do i = true; else i = false; end");
     expect(codegen.generate(ast.nodes)).toEqual("if ( i < 10 ){\ni = true;\n}\nelse{\ni = false;\n}\n");
   });
-
-  it("generates the euclidean algorithm", function(){
-    program = "var r:int = 0;\
-    var u:int = 561;\
-    var v:int = 11;\
-    while 0 < v do\
-      t = u;\
-      u = v;\
-      v = t % v;\
-    end\
-    if u < 0 do\
-      print 0-u;\
-    else\
-      print u;\
-    end"
-    var ast = parser.parse(program);
-    console.log(codegen.generate(ast.nodes));
-  });
 });

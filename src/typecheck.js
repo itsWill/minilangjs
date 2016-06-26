@@ -84,16 +84,24 @@ TypeChecker.prototype.checkBoolRules = function(rType, lType, operator){
 };
 
 TypeChecker.prototype.checkNumRules = function(rType, lType, operator){
-  var intOps = ["*", "/", "+", "%", "<", "-", ">"];
+  var intOps = ["*", "/", "+", "%", "<", "-", ">", "!=", "=="];
+  var bothInt = lType === "int" && rType === "int";
   if(intOps.indexOf(operator) < 0)
     throw new Error("undefined operator " + operator + " for int");
+
   if(lType === 'float' || rType === 'float')
     return 'float';
   else if((lType === "string" || rType === "string") && operator === "+")
     return 'string';
-  else if((lType === "int" && rType === "int") && operator === "<")
+  else if( bothInt && operator === "<")
     return 'bool';
-  else if(lType === "int" && rType === "int")
+  else if( bothInt && operator === ">")
+    return 'bool';
+  else if( bothInt && operator === "==")
+    return 'bool';
+  else if( bothInt && operator === "!=")
+    return 'bool';
+  else if(bothInt)
     return 'int';
   else if(lType === "float" && rType === "float")
     return 'float';
