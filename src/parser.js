@@ -161,7 +161,7 @@ Parser.prototype.expr = function(){
   var t = this.term();
   var tRight;
   var nextToken = this.peek();
-  var opToks = [Lexer.TOK_PLUS, Lexer.TOK_MINUS, Lexer.TOK_AND,  Lexer.TOK_OR,  Lexer.TOK_EQLS, Lexer.TOK_NEQLS, Lexer.TOK_LTHAN];
+  var opToks = [Lexer.TOK_PLUS, Lexer.TOK_MINUS, Lexer.TOK_AND,  Lexer.TOK_OR,  Lexer.TOK_EQLS, Lexer.TOK_NEQLS, Lexer.TOK_LTHAN, Lexer.TOK_GTHAN];
   while( this.tokens.length && opToks.indexOf(this.peek()) > -1){
     if(nextToken === Lexer.TOK_PLUS){
       this.consume(Lexer.TOK_PLUS);
@@ -192,6 +192,11 @@ Parser.prototype.expr = function(){
       this.consume(Lexer.TOK_LTHAN);
       tRight = this.term();
       t = new ASTNode({nodetype: Parser.AST_BINOP, operator: "<", left: t, right: tRight});
+    }
+    else if(nextToken === Lexer.TOK_GTHAN){
+      this.consume(Lexer.TOK_GTHAN);
+      tRight = this.term();
+      t = new ASTNode({nodetype: Parser.AST_BINOP, operator: ">", left: t, right: tRight});
     }
     nextToken = this.peek();
   }

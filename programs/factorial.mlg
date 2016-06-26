@@ -1,0 +1,7 @@
+var t:int = 10;
+var result:int = 1;
+while t > 1 do
+  result = t*result;
+  t = t - 1;
+end
+print result;

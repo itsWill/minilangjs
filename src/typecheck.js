@@ -84,7 +84,7 @@ TypeChecker.prototype.checkBoolRules = function(rType, lType, operator){
 };
 
 TypeChecker.prototype.checkNumRules = function(rType, lType, operator){
-  var intOps = ["*", "/", "+", "%", "<", "-"];
+  var intOps = ["*", "/", "+", "%", "<", "-", ">"];
   if(intOps.indexOf(operator) < 0)
     throw new Error("undefined operator " + operator + " for int");
   if(lType === 'float' || rType === 'float')
