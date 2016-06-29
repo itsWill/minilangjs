@@ -1,7 +1,7 @@
-var Parser = require('./parser').Parser;
-var TypeChecker = require('./typecheck');
-var SymbolTable = require('./symtab');
-var CodeGenerator = require('./codegen');
+var Parser = require('./src/parser').Parser;
+var TypeChecker = require('./src/typecheck');
+var SymbolTable = require('./src/symtab');
+var CodeGenerator = require('./src/codegen');
 var fs = require('fs');
 
 var compile = function(debug){
