@@ -1,3 +1,5 @@
+# This project is not maintained
+
 # minilangjs
 A tiny compiler for a small language written entirely in < 1k lines of Javascript.
 
